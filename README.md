@@ -4,6 +4,7 @@
 **buildlite**是构建不修改用户名的MC启动器
 ### 该启动器是为绿色整合包开发者制作，构建好启动器后请自行用pyinstaller构建exe
 安装pyinstaller命令：`pip installer pyinstaller`
+
 pyinstaller构建命令：`pyinstaller Launcher.py -w --onefile`
 ### 建议使用bat脚本类型，目前ps1没有测试，仅为无法生成bat脚本的用户提供，如果发现有BUG请及时反馈，谢谢！
 ## 启动参数设置
