@@ -115,19 +115,15 @@ window.mainloop()
     code = template.replace('#7902CE', launcher_color if launcher_color else '#7902CE')
     # 构建启动命令
     # 启动参数支持 {playername} 占位符
-    if script_type == 'bat':
+    if script_type == 'bat' or script_type == 'ps1':
         launcher_code = ''
         for line in launcher_args.splitlines():
             if line.strip():
-                # 替换 {playername} 为实际变量拼接
-                line_with_var = line.replace('{playername}', '" + playername + "')
-                launcher_code += f'    os.system(r"""{line_with_var}""")\n'
-    elif script_type == 'ps1':
-        launcher_code = ''
-        for line in launcher_args.splitlines():
-            if line.strip():
-                line_with_var = line.replace('{playername}', '" + playername + "')
-                launcher_code += f'    os.system(r"""& {line_with_var}""")\n'
+                # 特殊处理 --userProperties {}，替换为 --userProperties {{{{}}}}
+                if '--userProperties {}' in line:
+                    line = line.replace('--userProperties {}', '--userProperties {{}}')
+                # 用三引号包裹，防止命令中有引号导致语法错误
+                launcher_code += f'    os.system(rf"""{line}""")\n'
     else:
         launcher_code = '    print(playername)\n'
     # 替换Launcher函数体，避免re.sub转义问题
